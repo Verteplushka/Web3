@@ -18,43 +18,43 @@
 <h:body>
     <div class="block-container">
         <div class="block">
-            <h:form onsubmit="checkAllFields()">
+            <h:form>
                 X:
                 <h:selectOneMenu value="#{paramBean.x}">
-                    <f:selectItem itemValue="-5" itemLabel="-5" />
-                    <f:selectItem itemValue="-4" itemLabel="-4" />
-                    <f:selectItem itemValue="-3" itemLabel="-3" />
-                    <f:selectItem itemValue="-2" itemLabel="-2" />
-                    <f:selectItem itemValue="-1" itemLabel="-1" />
-                    <f:selectItem itemValue="0" itemLabel="0" />
-                    <f:selectItem itemValue="1" itemLabel="1" />
-                    <f:selectItem itemValue="2" itemLabel="2" />
-                    <f:selectItem itemValue="3" itemLabel="3" />
-                    <f:ajax execute="@this" render="@this" />
+                    <f:selectItem itemValue="-5" itemLabel="-5"/>
+                    <f:selectItem itemValue="-4" itemLabel="-4"/>
+                    <f:selectItem itemValue="-3" itemLabel="-3"/>
+                    <f:selectItem itemValue="-2" itemLabel="-2"/>
+                    <f:selectItem itemValue="-1" itemLabel="-1"/>
+                    <f:selectItem itemValue="0" itemLabel="0"/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:ajax execute="@this" render="@this"/>
                 </h:selectOneMenu>
                 <br/>
                 <br/>
 
                 <h:outputLabel for="y" value="Y: "/>
                 <h:inputText value="#{paramBean.y}" id="y" maxlength="17" placeholder="от -5 до 5">
-                    <p:ajax event="keyup" update="errorMessage" />
-                    <f:validator validatorId="YValidator" />
+                    <p:ajax event="keyup" update="errorMessage"/>
+                    <f:validator validatorId="YValidator"/>
                 </h:inputText>
                 <br/>
                 <br/>
 
                 R:
                 <p:selectBooleanCheckbox value="#{paramBean.r1}" itemLabel="1" id="r1">
-                    <p:ajax execute="@this" render="@this" update="r2 r3 r4 r5" />
+                    <p:ajax execute="@this" render="@this" update="r2 r3 r4 r5"/>
                 </p:selectBooleanCheckbox>
                 <p:selectBooleanCheckbox value="#{paramBean.r2}" itemLabel="2" id="r2">
-                    <p:ajax execute="@this" render="@this" update="r1 r3 r4 r5" />
+                    <p:ajax execute="@this" render="@this" update="r1 r3 r4 r5"/>
                 </p:selectBooleanCheckbox>
                 <p:selectBooleanCheckbox value="#{paramBean.r3}" itemLabel="3" id="r3">
-                    <p:ajax execute="@this" render="@this" update="r1 r2 r4 r5" />
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r4 r5"/>
                 </p:selectBooleanCheckbox>
                 <p:selectBooleanCheckbox value="#{paramBean.r4}" itemLabel="4" id="r4">
-                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r5" />
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r5"/>
                 </p:selectBooleanCheckbox>
                 <p:selectBooleanCheckbox value="#{paramBean.r5}" itemLabel="5" id="r5">
                     <p:ajax execute="@this" render="@this" update="r1 r2 r3 r4"/>
@@ -63,74 +63,75 @@
                 <br/>
 
                 <span id="error">
-                    <h:message id="errorMessage" for="y" />
+                    <h:message id="errorMessage" for="y"/>
                 </span>
                 <br/>
                 <br/>
 
-                <h:button value="submit" id="submit" action="#{paramBean.addDot()}" update="table" style="margin-right: 10px;"/>
-                <h:button value="clear table" id="clear" />
+                <h:commandButton value="submit" action="#{paramBean.addDot()}" style="">
+                    <f:ajax render="valuesTable"/>
+                </h:commandButton>
+                <h:commandButton value="clear table" action="#{paramBean.clear()}">
+                    <f:ajax render="valuesTable"/>
+                </h:commandButton>
                 <br/>
                 <br/>
 
-                <h:button value="move to start page" outcome="mvToStartPage" />
+                <h:button value="move to start page" outcome="mvToStartPage"/>
                 <br/>
                 <br/>
 
-<!--                <span id="result">-->
-<!--                    #{paramBean.addDot()}-->
-<!--                </span>-->
             </h:form>
         </div>
 
         <div class="block">
-            <canvas id="myCanvas" width="300" height="300" />
+            <canvas id="myCanvas" width="300" height="300"/>
         </div>
 
         <div class="block" id="table">
-            <h:dataTable value="#{paramBean.dotsList}" var="entry" border="1">
-                <h:column>
-                    <f:facet name="header">X</f:facet>
-                    #{entry.x}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Y</f:facet>
-                    #{entry.y}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">R</f:facet>
-                    #{entry.r}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Current Time</f:facet>
-                    #{entry.currentTime}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Script Time (nanosec)</f:facet>
-                    #{entry.scriptTime}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Result</f:facet>
-                    #{entry.result}
-                </h:column>
-            </h:dataTable>
+                <h:dataTable id="valuesTable" value="#{paramBean.dotsList}" var="entry" border="1">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{entry.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{entry.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{entry.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Current Time</f:facet>
+                        #{entry.currentTime}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Script Time (nanosec)</f:facet>
+                        #{entry.scriptTime}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Result</f:facet>
+                        #{entry.result}
+                    </h:column>
+                </h:dataTable>
         </div>
     </div>
 
     <h:outputScript>
         function drawAllDots() {
-            var r = document.getElementById('form:r').value;
-            if (r === "") {
-                return;
-            }
-            <ui:repeat var="dot" value="#{dotBean.dotsList}">
-                drawDot(#{dot.x / dot.r} * r, #{dot.y / dot.r} * r, '#{dot.result}');
-            </ui:repeat>
+        var r = "#{paramBean.r}";
+        if (r === "") {
+            return;
+        }
+        <ui:repeat var="dot" value="#{paramBean.dotsList}">
+            drawDot(#{dot.x / dot.r} * r, #{dot.y / dot.r} * r, '#{dot.result}');
+        </ui:repeat>
         }
     </h:outputScript>
 
 
-    <h:outputScript library="js" name="canvas.js" />
+    <h:outputScript library="js" name="canvas.js"/>
 </h:body>
 
 </html>

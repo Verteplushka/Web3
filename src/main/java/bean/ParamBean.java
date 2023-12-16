@@ -33,6 +33,10 @@ public class ParamBean {
         return this.dotsList;
     }
 
+    public void clear(){
+        this.dotsList.clear();
+    }
+
     public int getX() {
         return x;
     }
@@ -49,7 +53,7 @@ public class ParamBean {
         this.y = y;
     }
 
-    private int getR() {
+    public int getR() {
         return this.r;
     }
 
@@ -116,4 +120,5 @@ public class ParamBean {
     public ArrayList<Dot> getDotsList() {
         return dotsList;
     }
+
 }
