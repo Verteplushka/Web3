@@ -15,7 +15,7 @@ public class ParamBean {
     private final ArrayList<Dot> dotsList = new ArrayList<>();
     private int x = 0;
     private double y = 0;
-    private int r;
+    private int r = 3;
 
     public ArrayList<Dot> addDot(){
         long startTime = nanoTime();

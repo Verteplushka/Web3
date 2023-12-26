@@ -18,7 +18,7 @@
 <h:body>
     <div class="block-container">
         <div class="block">
-            <h:form>
+            <h:form id="form">
                 X:
                 <h:selectOneMenu value="#{paramBean.x}">
                     <f:selectItem itemValue="-5" itemLabel="-5"/>
@@ -44,20 +44,20 @@
                 <br/>
 
                 R:
-                <p:selectBooleanCheckbox value="#{paramBean.r1}" itemLabel="1" id="r1">
-                    <p:ajax execute="@this" render="@this" update="r2 r3 r4 r5"/>
+                <p:selectBooleanCheckbox value="#{paramBean.r1}" itemLabel="1" id="r1" widgetVar="widget1">
+                    <p:ajax execute="@this" render="@this" update="r2 r3 r4 r5" oncomplete="redrawPicture()"/>
                 </p:selectBooleanCheckbox>
-                <p:selectBooleanCheckbox value="#{paramBean.r2}" itemLabel="2" id="r2">
-                    <p:ajax execute="@this" render="@this" update="r1 r3 r4 r5"/>
+                <p:selectBooleanCheckbox value="#{paramBean.r2}" itemLabel="2" id="r2" widgetVar="widget2">
+                    <p:ajax execute="@this" render="@this" update="r1 r3 r4 r5" oncomplete="redrawPicture()"/>
                 </p:selectBooleanCheckbox>
-                <p:selectBooleanCheckbox value="#{paramBean.r3}" itemLabel="3" id="r3">
-                    <p:ajax execute="@this" render="@this" update="r1 r2 r4 r5"/>
+                <p:selectBooleanCheckbox value="#{paramBean.r3}" itemLabel="3" id="r3" widgetVar="widget3">
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r4 r5" oncomplete="redrawPicture()"/>
                 </p:selectBooleanCheckbox>
-                <p:selectBooleanCheckbox value="#{paramBean.r4}" itemLabel="4" id="r4">
-                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r5"/>
+                <p:selectBooleanCheckbox value="#{paramBean.r4}" itemLabel="4" id="r4" widgetVar="widget4">
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r5" oncomplete="redrawPicture()"/>
                 </p:selectBooleanCheckbox>
-                <p:selectBooleanCheckbox value="#{paramBean.r5}" itemLabel="5" id="r5">
-                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r4"/>
+                <p:selectBooleanCheckbox value="#{paramBean.r5}" itemLabel="5" id="r5" widgetVar="widget5">
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r4" oncomplete="redrawPicture()"/>
                 </p:selectBooleanCheckbox>
                 <br/>
                 <br/>
@@ -68,11 +68,11 @@
                 <br/>
                 <br/>
 
-                <h:commandButton value="submit" action="#{paramBean.addDot()}" style="">
-                    <f:ajax render="valuesTable"/>
+                <h:commandButton value="submit" action="#{paramBean.addDot()}" onclick="return checkY()">
+                    <p:ajax update="valuesTable" oncomplete="redrawPicture()" />
                 </h:commandButton>
                 <h:commandButton value="clear table" action="#{paramBean.clear()}">
-                    <f:ajax render="valuesTable"/>
+                    <p:ajax update="valuesTable" oncomplete="redrawPicture()"/>
                 </h:commandButton>
                 <br/>
                 <br/>
@@ -119,19 +119,24 @@
     </div>
 
     <h:outputScript>
+        function getR(){
+            window.r =  #{paramBean.r};
+            return window.r;
+        }
         function drawAllDots() {
         var r = "#{paramBean.r}";
         if (r === "") {
             return;
-        }
         <ui:repeat var="dot" value="#{paramBean.dotsList}">
             drawDot(#{dot.x / dot.r} * r, #{dot.y / dot.r} * r, '#{dot.result}');
         </ui:repeat>
+        }
         }
     </h:outputScript>
 
 
     <h:outputScript library="js" name="canvas.js"/>
+    <h:outputScript library="js" name="main.js"/>
 </h:body>
 
 </html>
