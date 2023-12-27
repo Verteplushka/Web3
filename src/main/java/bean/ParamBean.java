@@ -32,7 +32,10 @@ public class ParamBean {
         addDot(getX(), getY(), getR());
     }
 
-    public void addDot(double x, double y, int r){
+    private void addDot(double x, double y, int r){
+        if(!isValid(x, y, r)){
+            return;
+        }
         String result;
         long startTime = nanoTime();
         if((x<=0 && y>=0 && y<=2*x+r) || (x>=0 && y>=0 && x*x+y*y<=r*r) || (x>=0 && y<=0 && x<=r && y>=-r/2.0)){
@@ -41,6 +44,19 @@ public class ParamBean {
             result = "miss";
         }
         addDotEntityManager(new Dot(x, y, r, LocalDate.now(), nanoTime() - startTime, result));
+    }
+
+    private boolean isValid(double x, double y, int r){
+        if(!(-5 < x && x < 3)){
+            return false;
+        }
+        if(!(y > -5 && y < 5)){
+            return false;
+        }
+        if(!(1 <= r && r <= 5)){
+            return false;
+        }
+        return true;
     }
 
     public void clear(){
