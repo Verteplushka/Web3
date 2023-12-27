@@ -68,7 +68,7 @@
                 <br/>
                 <br/>
 
-                <h:commandButton value="submit" action="#{paramBean.addDot()}" onclick="return checkY()">
+                <h:commandButton value="submit" action="#{paramBean.addDotButton()}" onclick="return checkY()">
                     <p:ajax update="valuesTable" oncomplete="redrawPicture()" />
                 </h:commandButton>
                 <h:commandButton value="clear table" action="#{paramBean.clear()}">
@@ -84,7 +84,7 @@
                 <h:inputHidden id="hiddenX" value="#{graphBean.x}" />
                 <h:inputHidden id="hiddenY" value="#{graphBean.y}" />
                 <h:inputHidden id="hiddenR" value="#{graphBean.r}" />
-                <p:remoteCommand name="callAddDot" action="#{paramBean.addDotParam(graphBean.x, graphBean.y, graphBean.r)}" update="valuesTable" oncomplete="redrawPicture()" />
+                <p:remoteCommand name="callAddDot" action="#{paramBean.addDotMouse(graphBean.x, graphBean.y, graphBean.r)}" update="valuesTable" oncomplete="redrawPicture()" />
 
             </h:form>
         </div>

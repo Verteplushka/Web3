@@ -1,7 +1,9 @@
 package bean;
 
+import database.DotEntityManagerBean;
 import jakarta.faces.bean.ManagedBean;
 import jakarta.faces.bean.SessionScoped;
+import jakarta.inject.Inject;
 import server.Dot;
 
 import java.time.LocalDate;
@@ -12,32 +14,37 @@ import static java.lang.System.nanoTime;
 @ManagedBean
 @SessionScoped
 public class ParamBean {
-    private final ArrayList<Dot> dotsList = new ArrayList<>();
+    @Inject
+    private DotEntityManagerBean dotEntityManagerBean;
     private double x = 0;
     private double y = 0;
     private int r = 3;
 
-    public void addDot(){
-        long startTime = nanoTime();
+    private void addDotEntityManager(Dot dot){
+        dotEntityManagerBean.addDot(dot);
+    }
+
+    public void addDotMouse(double x, double y, int r){
+        setR(r);
+        addDot(x, y, r);
+    }
+    public void addDotButton(){
+        addDot(getX(), getY(), getR());
+    }
+
+    public void addDot(double x, double y, int r){
         String result;
+        long startTime = nanoTime();
         if((x<=0 && y>=0 && y<=2*x+r) || (x>=0 && y>=0 && x*x+y*y<=r*r) || (x>=0 && y<=0 && x<=r && y>=-r/2.0)){
             result = "hit";
         } else{
             result = "miss";
         }
-
-        this.dotsList.add(new Dot(x, y, r, LocalDate.now(), nanoTime() - startTime, result));
-    }
-
-    public void addDotParam(double x, double y, int r){
-        setX(x);
-        setY(y);
-        setR(r);
-        addDot();
+        addDotEntityManager(new Dot(x, y, r, LocalDate.now(), nanoTime() - startTime, result));
     }
 
     public void clear(){
-        this.dotsList.clear();
+        dotEntityManagerBean.clear();
     }
 
     public double getX() {
@@ -125,7 +132,7 @@ public class ParamBean {
     }
 
     public ArrayList<Dot> getDotsList() {
-        return dotsList;
+        return dotEntityManagerBean.getDotsList();
     }
 
 }
