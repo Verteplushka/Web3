@@ -1,5 +1,5 @@
 body{
-    background-image: url('../background6.jpg');
+    background: url("#{resource['background6.jpg']}");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -14,7 +14,7 @@ body{
 
 .block-container {
     display: flex;
-    font-size: 15px;x
+    font-size: 15px;
     flex-wrap: wrap;
 }
 
