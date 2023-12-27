@@ -3,14 +3,14 @@ package server;
 import java.time.LocalDate;
 
 public class Dot {
-    private int x;
+    private double x;
     private double y;
     private int r;
     private LocalDate currentTime;
     private long scriptTime;
     private String result;
 
-    public Dot(int x, double y, int r, LocalDate currentTime, long scriptTime, String result){
+    public Dot(double x, double y, int r, LocalDate currentTime, long scriptTime, String result){
         this.x = x;
         this.y = y;
         this.r = r;
@@ -19,7 +19,7 @@ public class Dot {
         this.result = result;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 

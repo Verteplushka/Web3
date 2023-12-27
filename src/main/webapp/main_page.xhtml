@@ -81,6 +81,11 @@
                 <br/>
                 <br/>
 
+                <h:inputHidden id="hiddenX" value="#{graphBean.x}" />
+                <h:inputHidden id="hiddenY" value="#{graphBean.y}" />
+                <h:inputHidden id="hiddenR" value="#{graphBean.r}" />
+                <p:remoteCommand name="callAddDot" action="#{paramBean.addDotParam(graphBean.x, graphBean.y, graphBean.r)}" update="valuesTable" oncomplete="redrawPicture()" />
+
             </h:form>
         </div>
 
@@ -118,25 +123,8 @@
         </div>
     </div>
 
-    <h:outputScript>
-        function getR(){
-            window.r =  #{paramBean.r};
-            return window.r;
-        }
-        function drawAllDots() {
-        var r = "#{paramBean.r}";
-        if (r === "") {
-            return;
-        <ui:repeat var="dot" value="#{paramBean.dotsList}">
-            drawDot(#{dot.x / dot.r} * r, #{dot.y / dot.r} * r, '#{dot.result}');
-        </ui:repeat>
-        }
-        }
-    </h:outputScript>
-
-
     <h:outputScript library="js" name="canvas.js"/>
     <h:outputScript library="js" name="main.js"/>
-</h:body>
 
+</h:body>
 </html>

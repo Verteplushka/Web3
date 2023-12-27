@@ -13,15 +13,12 @@ import static java.lang.System.nanoTime;
 @SessionScoped
 public class ParamBean {
     private final ArrayList<Dot> dotsList = new ArrayList<>();
-    private int x = 0;
+    private double x = 0;
     private double y = 0;
     private int r = 3;
 
-    public ArrayList<Dot> addDot(){
+    public void addDot(){
         long startTime = nanoTime();
-        int x = getX();
-        double y = getY();
-        int r = getR();
         String result;
         if((x<=0 && y>=0 && y<=2*x+r) || (x>=0 && y>=0 && x*x+y*y<=r*r) || (x>=0 && y<=0 && x<=r && y>=-r/2.0)){
             result = "hit";
@@ -30,19 +27,25 @@ public class ParamBean {
         }
 
         this.dotsList.add(new Dot(x, y, r, LocalDate.now(), nanoTime() - startTime, result));
-        return this.dotsList;
+    }
+
+    public void addDotParam(double x, double y, int r){
+        setX(x);
+        setY(y);
+        setR(r);
+        addDot();
     }
 
     public void clear(){
         this.dotsList.clear();
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int selectedX) {
-        this.x = selectedX;
+    public void setX(double x) {
+        this.x = x;
     }
 
     public double getY() {
@@ -75,6 +78,10 @@ public class ParamBean {
 
     public boolean getR5() {
         return getR() == 5;
+    }
+
+    public void setR(int r) {
+        this.r = r;
     }
 
     public void setR1(boolean r) {

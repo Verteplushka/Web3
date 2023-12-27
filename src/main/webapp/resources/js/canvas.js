@@ -13,7 +13,9 @@ function getR() {
 
 function redrawPicture() {
     redrawGraph();
-    drawAllDots();
+    if (getR() !== 0) {
+        drawAllDots();
+    }
 }
 
 function drawGraph() {
@@ -115,7 +117,6 @@ function getDotsList() {
         dotsList.push(dot);
     });
 
-    console.log(dotsList);
     return dotsList;
 }
 
@@ -128,37 +129,25 @@ function drawDot(dot) {
 
 
 canvas.addEventListener("click", function (event) {
-    let x = event.offsetX;
-    let y = event.offsetY;
-    setFields(x, y);
-    checkAllFields();
+    let x = (event.offsetX - canvas.height / 2) / 20;
+    let y = (canvas.width / 2 - event.offsetY) / 20;
+    if (!checkRange(x, y)) {
+        return;
+    }
+    document.getElementById("form:hiddenX").value = x;
+    document.getElementById("form:hiddenY").value = y;
+    document.getElementById("form:hiddenR").value = getR();
+    callAddDot();
 });
 
-function setFields(x, y) {
-    x = (x - canvas.height / 2) / 20;
-    y = (canvas.width / 2 - y) / 20;
-    x = Math.round(x);
-    if (x > 4) {
-        x = 4;
-    } else if (x < -4) {
-        x = -4;
+function checkRange(x, y) {
+    if (!(-5 < x && x < 3)) {
+        alert("You're out of range!\nX must be in (-5, 3)");
+        return false;
     }
-    if (y > 5) {
-        y = 4.999999999999999;
-    } else if (y < -5) {
-        y = -4.999999999999999;
+    if (!(-5 < y && y < 5)) {
+        alert("You're out of range!\nY must be in (-5, 5)");
+        return false;
     }
-    localStorage.setItem("x", x);
-    let xElements = document.getElementsByName("x");
-    for (let i = 0; i < xElements.length; i++) {
-        if (i - 4 == x) {
-            xElements[i].classList.add('pressed-but');
-        } else {
-            xElements[i].classList.remove('pressed-but');
-            xElements[i].classList.add('default-but');
-        }
-    }
-    this.document.getElementById("y").value = y;
-    localStorage.setItem("y", y);
+    return true;
 }
-
